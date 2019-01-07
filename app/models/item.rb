@@ -13,7 +13,21 @@
 #
 
 class Item < ApplicationRecord
+  before_save :set_discount_bool
+  
   def price
-    80.00
+    return original_price unless has_discount
+
+    original_price - (original_price / 100 * discount_percentage)
+  end
+
+  def self.average_price
+    Item.all.collect(&:price).instance_eval{ reduce(:+) / size }
+  end
+  
+  private
+  
+  def set_discount_bool
+    self.has_discount = self.discount_percentage == 0 ? false : true
   end
 end

@@ -19,8 +19,14 @@ FactoryBot.define do
 
     trait :with_discount do
       has_discount { true }
+      discount_percentage { Faker::Number.between(5, 50) }
+    end
+
+    trait :without_discount do
+      has_discount { false }
     end
 
     factory :item_with_discount, traits: %i[with_discount]
+    factory :item_without_discount, traits: %i[without_discount]
   end
 end
