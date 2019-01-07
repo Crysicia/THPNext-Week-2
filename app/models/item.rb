@@ -28,6 +28,6 @@ class Item < ApplicationRecord
   private
   
   def set_discount_bool
-    self.has_discount = self.discount_percentage == 0 ? false : true
+    self.has_discount = !(self.discount_percentage == 0)
   end
 end
