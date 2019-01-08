@@ -41,4 +41,19 @@ RSpec.describe Item, type: :model do
       it { expect(item.price).to eq(100.00) }
     end
   end
+  
+  describe 'Average price' do
+    it "gives the average for one item" do
+      FactoryBot.create(:item_with_discount, original_price: 100.00, discount_percentage: 20)
+      expect(Item.average_price).to eq(80.00)
+    end
+      
+    it "gives the average for many items" do
+      FactoryBot.create(:item_without_discount, original_price: 100.00)
+      FactoryBot.create(:item_without_discount, original_price: 150.00)
+      FactoryBot.create(:item_without_discount, original_price: 20.00)
+      FactoryBot.create(:item_with_discount, original_price: 20.00, discount_percentage: 50)
+      expect(Item.average_price).to eq(70.00)
+    end
+  end
 end
