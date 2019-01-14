@@ -14,4 +14,7 @@
 class Category < ApplicationRecord
   has_many :categorizations, dependent: :destroy
   has_many :items, through: :categorizations
+
+  validates :name, presence: true, length: 5..50
+  validates :description, presence: true, length: 50..1000
 end

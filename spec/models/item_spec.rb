@@ -36,6 +36,11 @@ RSpec.describe Item, type: :model do
       it { is_expected.to validate_presence_of :discount_percentage }
       it { is_expected.to validate_inclusion_of(:discount_percentage).in_range(0..100) }
     end
+
+    describe 'Associations' do
+      it { is_expected.to have_many(:categorizations).dependent(:destroy) }
+      it { is_expected.to have_many(:categories).through(:categorizations) }
+    end
   end
 
   describe 'Price' do
