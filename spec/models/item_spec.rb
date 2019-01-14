@@ -10,6 +10,7 @@
 #  discount_percentage :integer          default(0)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  name                :string           default(""), not null
 #
 
 require 'rails_helper'
@@ -23,8 +24,17 @@ RSpec.describe Item, type: :model do
       it { is_expected.to have_db_column(:original_price).of_type(:float).with_options(null: false) }
       it { is_expected.to have_db_column(:has_discount).of_type(:boolean).with_options(default: false) }
       it { is_expected.to have_db_column(:discount_percentage).of_type(:integer).with_options(default: 0) }
+      it { is_expected.to have_db_column(:name).of_type(:string).with_options(null: false) }
       it { is_expected.to have_db_column(:created_at).of_type(:datetime).with_options(null: false) }
       it { is_expected.to have_db_column(:updated_at).of_type(:datetime).with_options(null: false) }
+    end
+
+    describe 'Validations' do
+      it { is_expected.to validate_presence_of :name }
+      it { is_expected.to validate_length_of(:name).is_at_least(2).is_at_most(100) }
+      it { is_expected.to validate_presence_of :original_price }
+      it { is_expected.to validate_presence_of :discount_percentage }
+      it { is_expected.to validate_inclusion_of(:discount_percentage).in_range(0..100) }
     end
   end
 
@@ -41,19 +51,19 @@ RSpec.describe Item, type: :model do
       it { expect(item.price).to eq(100.00) }
     end
   end
-  
+
   describe 'Average price' do
-    it "gives the average for one item" do
-      FactoryBot.create(:item_with_discount, original_price: 100.00, discount_percentage: 20)
-      expect(Item.average_price).to eq(80.00)
+    context "when there is one item" do
+      let!(:item) { create(:item) }
+
+      it { expect(Item.average_price).to eq(item.price) }
     end
-      
-    it "gives the average for many items" do
-      FactoryBot.create(:item_without_discount, original_price: 100.00)
-      FactoryBot.create(:item_without_discount, original_price: 150.00)
-      FactoryBot.create(:item_without_discount, original_price: 20.00)
-      FactoryBot.create(:item_with_discount, original_price: 20.00, discount_percentage: 50)
-      expect(Item.average_price).to eq(70.00)
+
+    context "when there is many items" do
+      let!(:items) { create_list(:item, rand(3..5)) }
+      let(:average_price) { (items.collect(&:price).instance_eval{ reduce(:+) / size }) }
+
+      it { expect(Item.average_price).to eq(average_price) }
     end
   end
 end

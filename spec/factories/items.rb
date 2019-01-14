@@ -10,12 +10,14 @@
 #  discount_percentage :integer          default(0)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  name                :string           default(""), not null
 #
 
 FactoryBot.define do
   factory :item do
     original_price      { Faker::Number.decimal(2) }
     has_discount        { Faker::Boolean.boolean }
+    name                { Faker::VForVendetta.character }
 
     trait :with_discount do
       has_discount { true }
