@@ -1,0 +1,16 @@
+<tr id="item-<%= item.id %>">
+  <td>
+    <%= item.original_price.round(2) %>
+  </td>
+  <%= form_for [:administration, item], remote: true, method: :patch do |f| %>
+  <td>
+    <%= f.number_field :discount_percentage, step: :any, within: 0..100, class: 'form-control' %>
+  </td>
+  <td>
+    <%= item.price.round(2) %>
+  </td>
+  <td>
+    <%= f.submit 'Modifier', class: 'btn btn-primary' %>
+  </td>
+  <% end %>
+</tr>

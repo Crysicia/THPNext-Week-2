@@ -17,7 +17,7 @@ module Administration
 
     def update
       @item.update(item_params)
-      redirect_to administration_items_path
+      redirect_back(fallback_location: administration_items_path)
     end
 
     def destroy; end
@@ -25,7 +25,7 @@ module Administration
     private
 
     def item_params
-      params.require(:item).permit(:original_price, :has_discount, :discount_percentage)
+      params.require(:item).permit(:discount_percentage)
     end
 
     def find_item
