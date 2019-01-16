@@ -11,19 +11,6 @@ AllCops:
     - 'vendor/**/*'
     - 'config/environments/*.rb'
     - 'bin/*'
-    - 'app/controllers/admins/confirmations_controller.rb'
-    - 'app/controllers/admins/omniauth_callbacks_controller.rb'
-    - 'app/controllers/admins/passwords_controller.rb'
-    - 'app/controllers/admins/registrations_controller.rb'
-    - 'app/controllers/admins/sessions_controller.rb'
-    - 'app/controllers/admins/unlocks_controller.rb'
-    - 'app/controllers/users/confirmations_controller.rb'
-    - 'app/controllers/users/omniauth_callbacks_controller.rb'
-    - 'app/controllers/users/passwords_controller.rb'
-    - 'app/controllers/users/registrations_controller.rb'
-    - 'app/controllers/users/sessions_controller.rb'
-    - 'app/controllers/users/unlocks_controller.rb'
-
 
 Rails:
   Enabled: true
@@ -33,6 +20,11 @@ Rails/Output:
 
 Style/DateTime:
   Enabled: true
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'app/controllers/admins/*.rb'
+    - 'app/controllers/users/*.rb'
 
 Metrics/LineLength:
   Max: 120
