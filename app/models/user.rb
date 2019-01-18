@@ -21,4 +21,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   include Notifications
+
+  def offer(text)
+    UserMailer.offer(self, text).deliver_later
+  end
 end

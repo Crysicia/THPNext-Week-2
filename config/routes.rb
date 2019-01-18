@@ -28,5 +28,8 @@ Rails.application.routes.draw do
   namespace 'administration' do
     get '/', to: 'items#index'
     resources :items
+    get '/backoffice', to: 'back_office#index'
+    get '/backoffice/new/:id/', to: 'back_office#new', as: 'backoffice_new'
+    post '/backoffice/send/:id/', to: 'back_office#create', as: 'send'
   end
 end
